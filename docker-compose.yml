@@ -1,0 +1,23 @@
+services:
+  http_server:
+    image: nginx:1.27.1-bookworm-otel
+    ports:
+      - "8080:80"
+    volumes:
+      - ./http_server/templates:/etc/nginx/templates
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    
+  ftp-server:
+    image: delfer/alpine-ftp-server
+    ports:
+      - "21:21"
+      - 21000-21010:21000-21010
+    environment:
+      - USERS=one|asdag436tyaw34ga|/home/one/dir
+      - ADDRESS=localhost
+    volumes:
+      - ./.shared/ftp:/home/one/dir
+
+  
