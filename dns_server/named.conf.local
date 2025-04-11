@@ -1,0 +1,4 @@
+zone "miumg-net.io" {
+    type master;
+    file "/etc/bind/zones/db.miumg-net.io";
+};

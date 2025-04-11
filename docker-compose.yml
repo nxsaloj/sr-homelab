@@ -8,8 +8,11 @@ services:
     environment:
       - NGINX_HOST=localhost
       - NGINX_PORT=80
+    networks:
+      miumgnet:
+        ipv4_address: 172.19.0.3
     
-  ftp-server:
+  ftp_server:
     image: delfer/alpine-ftp-server
     ports:
       - "21:21"
@@ -19,5 +22,31 @@ services:
       - ADDRESS=localhost
     volumes:
       - ./.shared/ftp:/home/one/dir
+    networks:
+      - miumgnet
 
-  
+  dns_server:
+    image: ubuntu/bind9
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    environment:
+      - BIND9_USER=root
+      - TZ=UTC
+    volumes:
+      - ./dns_server/named.conf.options:/etc/bind/named.conf.options
+      - ./dns_server/named.conf.local:/etc/bind/named.conf.local
+      - ./dns_server/db.miumg-net.io:/etc/bind/zones/db.miumg-net.io
+      - ./.shared/cache_bind:/var/cache/bind
+    user: root
+    networks:
+      - miumgnet
+
+networks:
+  miumgnet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.19.0.0/16
+         gateway: 172.19.0.1
+    
