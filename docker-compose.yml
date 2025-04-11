@@ -2,7 +2,7 @@ services:
   http_server:
     image: nginx:1.27.1-bookworm-otel
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - ./http_server/templates:/etc/nginx/templates
     environment:
@@ -40,7 +40,8 @@ services:
       - ./.shared/cache_bind:/var/cache/bind
     user: root
     networks:
-      - miumgnet
+      miumgnet:
+        ipv4_address: 172.19.0.4
 
 networks:
   miumgnet:

@@ -10,8 +10,5 @@ $TTL    1d ; default expiration time (in seconds) of all RRs without their own T
 @     IN      NS      miumg-net.io.
 
 ; name servers - A records
-@             IN      A      172.19.0.3
-www           IN      A      172.19.0.3
-
-;service1.miumg-net.io.        IN      A      172.24.0.3
-;service2.miumg-net.io.        IN      A      172.24.0.4
+@             IN      A      192.168.100.20
+www           IN      A      192.168.100.20

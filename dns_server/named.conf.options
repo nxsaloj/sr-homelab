@@ -20,6 +20,11 @@ options {
 	// If BIND logs error messages about the root key being expired,
 	// you will need to update your keys.  See https://www.isc.org/bind-keys
 	//========================================================================
+	allow-query { any; };
+    allow-recursion { any; };
+
+    listen-on { 127.0.0.1; 192.168.100.20; };  // 👈 Listen on LAN IP
+
 	dnssec-validation auto;
 
 	listen-on-v6 { any; };
