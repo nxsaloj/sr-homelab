@@ -3,11 +3,15 @@ services:
     image: nginx:1.27.1-bookworm-otel
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./http_server/templates:/etc/nginx/templates
+      - ./http_server/cert:/etc/ssl/certs
     environment:
       - NGINX_HOST=localhost
       - NGINX_PORT=80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       miumgnet:
         ipv4_address: 172.19.0.3
@@ -19,9 +23,12 @@ services:
       - 21000-21010:21000-21010
     environment:
       - USERS=one|asdag436tyaw34ga|/home/one/dir
-      - ADDRESS=localhost
+      - ADDRESS=ftp.miumg-net.io
+      - TLS_CERT=/home/one/certs/miumg-net.io.pem
+      - TLS_KEY=/home/one/certs/miumg-net.io-key.pem
     volumes:
       - ./.shared/ftp:/home/one/dir
+      - ./http_server/cert:/home/one/certs:ro
     networks:
       - miumgnet
 
